@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kaltan-baza.ru/sitemap.xml
+Host: kaltan-baza.ru
