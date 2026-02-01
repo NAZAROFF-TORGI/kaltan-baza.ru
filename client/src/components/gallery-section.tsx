@@ -22,53 +22,53 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
   const galleryItems: GalleryItem[] = [
     // Экстерьер - новые фотографии
     {
-      src: "/attached_assets/Экстерьер1_1756722070947.JPG",
+      src: "/attached_assets/exterior-01.jpg",
       alt: "Внешний вид промышленного объекта в Калтане, 1300 м²",
       category: "exterior"
     },
     {
-      src: "/attached_assets/Экстерьер2_1756722076186.JPG",
+      src: "/attached_assets/exterior-02.jpg",
       alt: "Общий вид промышленного здания с информационным баннером",
       category: "exterior"
     },
     {
-      src: "/attached_assets/Экстерьер3_1756722080908.jpg",
+      src: "/attached_assets/exterior-03.jpg",
       alt: "Металлические конструкции кран-балки и территория объекта",
       category: "exterior"
     },
     {
-      src: "/attached_assets/Экстерьер4_1756722084509.JPG",
+      src: "/attached_assets/exterior-04.jpg",
       alt: "Фасад здания с красными воротами и информационным баннером",
       category: "exterior"
     },
     {
-      src: "/attached_assets/экстерьер5_1756722088851.jpg",
+      src: "/attached_assets/exterior-05.jpg",
       alt: "Вид объекта с табличкой 'Продажа 1300 м²' в зимний период",
       category: "exterior"
     },
     {
-      src: "/attached_assets/Экстерьер 6_1756722092275.jpg",
+      src: "/attached_assets/exterior-06.jpg",
       alt: "Панорамный вид промышленного комплекса с высоты зимой",
       category: "exterior"
     },
     // Интерьер - новые фотографии
     {
-      src: "/attached_assets/Интерьер1_1756722131416.jpg",
+      src: "/attached_assets/interior-01.jpg",
       alt: "Интерьер цеха с кран-балкой 3-5 тонн и высотой потолков 9м",
       category: "interior"
     },
     {
-      src: "/attached_assets/Интерьер2_1756722135871.jpg",
+      src: "/attached_assets/interior-02.jpg",
       alt: "Интерьер цеха с автомобилем для демонстрации масштаба помещения",
       category: "interior"
     },
     {
-      src: "/attached_assets/Интерьер3_1756722139635.jpg",
+      src: "/attached_assets/interior-03.jpg",
       alt: "Внутренние помещения с большими окнами и естественным освещением",
       category: "interior"
     },
     {
-      src: "/attached_assets/Интерьер4_1756722143232.jpg",
+      src: "/attached_assets/interior-04.jpg",
       alt: "Цех с металлическими конструкциями и промышленным оборудованием",
       category: "interior"
     }

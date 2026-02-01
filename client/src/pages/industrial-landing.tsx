@@ -146,7 +146,7 @@ export default function IndustrialLanding() {
                 onClick={scrollToContact}
               >
                 <img 
-                  src="/attached_assets/Лого_цех_проз_фон_1769874756739.png" 
+                  src="/attached_assets/logo-kaltan.png" 
                   alt="Герб Калтан" 
                   className="h-20 w-auto group-hover:scale-105 transition-transform duration-300" 
                 />
@@ -235,7 +235,7 @@ export default function IndustrialLanding() {
               
               <div className="mt-6 flex flex-col space-y-2">
                 <a 
-                  href="/attached_assets/Пользовательское_1769874748971.txt" 
+                  href="/attached_assets/user-agreement.txt" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-amber-400 transition-colors text-sm flex items-center"
@@ -245,7 +245,7 @@ export default function IndustrialLanding() {
                   Пользовательское соглашение
                 </a>
                 <a 
-                  href="/attached_assets/Политика_конфиденциальности_1769874741267.txt" 
+                  href="/attached_assets/privacy-policy.txt" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-amber-400 transition-colors text-sm flex items-center"

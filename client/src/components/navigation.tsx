@@ -30,7 +30,7 @@ export function Navigation({ onPhoneClick }: NavigationProps) {
             onClick={scrollToContact}
           >
             <img 
-              src="/attached_assets/Лого_цех_проз_фон_1769874756739.png" 
+              src="/attached_assets/logo-kaltan.png" 
               alt="Герб Калтана" 
               className="h-14 w-auto"
             />

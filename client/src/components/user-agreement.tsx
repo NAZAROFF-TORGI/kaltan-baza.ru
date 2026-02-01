@@ -22,7 +22,7 @@ export function UserAgreement({ checked, onCheckedChange }: UserAgreementProps) 
       >
         Я согласен с{" "}
         <a
-          href="/user-agreement.txt"
+          href="/attached_assets/user-agreement.txt"
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent underline hover:text-accent/80"
