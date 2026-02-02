@@ -245,9 +245,7 @@ export default function IndustrialLanding() {
                   Пользовательское соглашение
                 </a>
                 <a 
-                  href="/attached_assets/privacy-policy.txt" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                  href="/privacy-policy"
                   className="text-slate-400 hover:text-amber-400 transition-colors text-sm flex items-center"
                   data-testid="privacy-policy-link"
                 >
