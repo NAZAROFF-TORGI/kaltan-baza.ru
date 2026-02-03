@@ -235,7 +235,7 @@ export default function IndustrialLanding() {
               
               <div className="mt-6 flex flex-col space-y-2">
                 <a 
-                  href="/attached_assets/user-agreement.txt" 
+                  href="/user-agreement" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-amber-400 transition-colors text-sm flex items-center"

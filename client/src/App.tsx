@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import IndustrialLanding from "@/pages/industrial-landing";
 import { LeadsDashboard } from "@/pages/leads-dashboard";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import UserAgreement from "@/pages/user-agreement";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={IndustrialLanding} />
       <Route path="/admin/leads" component={LeadsDashboard} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/user-agreement" component={UserAgreement} />
       <Route component={NotFound} />
     </Switch>
   );
