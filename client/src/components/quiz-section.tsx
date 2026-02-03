@@ -71,7 +71,7 @@ export function QuizSection() {
       options: [
         { value: "immediate", label: "Немедленно", description: "В течение месяца", icon: "" },
         { value: "soon", label: "В ближайшие 3 месяца", description: "Подготовка к запуску", icon: "" },
-        { value: "planning", label: "Планирую в 2024", description: "Изучаю варианты", icon: "" },
+        { value: "planning", label: "В течение года", description: "Изучаю варианты", icon: "" },
         { value: "future", label: "Долгосрочные планы", description: "Инвестиционный проект", icon: "" },
       ]
     },
