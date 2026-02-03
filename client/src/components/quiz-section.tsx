@@ -5,9 +5,17 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+
+const formatPhoneNumber = (value: string) => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length < 2) return `+7 (${digits.slice(1)}`;
+  if (digits.length < 5) return `+7 (${digits.slice(1)}`;
+  if (digits.length < 8) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`;
+  if (digits.length < 10) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
+};
 
 const quizFormSchema = z.object({
   name: z.string().min(2, "Имя должно содержать минимум 2 символа"),
@@ -26,8 +34,8 @@ interface QuizAnswer {
 export function QuizSection() {
   const [currentStep, setCurrentStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<QuizAnswer[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   const form = useForm<QuizFormData>({
     resolver: zodResolver(quizFormSchema),
@@ -38,33 +46,6 @@ export function QuizSection() {
     },
   });
 
-  const submitQuizMutation = useMutation({
-    mutationFn: async (data: QuizFormData) => {
-      return apiRequest("POST", "/api/leads", {
-        ...data,
-        type: "quiz",
-        quizAnswers: quizAnswers,
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
-      toast({
-        title: "Спасибо за заявку!",
-        description: "Мы свяжемся с вами в ближайшее время с персональным предложением.",
-      });
-      // Reset quiz
-      setCurrentStep(0);
-      setQuizAnswers([]);
-      form.reset();
-    },
-    onError: () => {
-      toast({
-        title: "Ошибка отправки",
-        description: "Попробуйте еще раз или свяжитесь с нами по телефону.",
-        variant: "destructive",
-      });
-    },
-  });
 
   const quizSteps = [
     {
@@ -115,7 +96,64 @@ export function QuizSection() {
   };
 
   const onSubmit = (data: QuizFormData) => {
-    submitQuizMutation.mutate(data);
+    const digits = data.phone.replace(/\D/g, '');
+    if (digits.length < 11) {
+      toast({
+        title: "Некорректный телефон",
+        description: "Пожалуйста, введите все 11 цифр номера.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (data.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        toast({
+          title: "Некорректный Email",
+          description: "Пожалуйста, введите корректный адрес электронной почты.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const nameSafe = encodeURIComponent(data.name);
+      const phoneSafe = encodeURIComponent(data.phone);
+      const emailSafe = encodeURIComponent(data.email || 'не указан');
+      
+      const answersText = quizAnswers
+        .map(a => `- ${a.question}: ${a.answer}`)
+        .join('%0A');
+      const answersSafe = encodeURIComponent(answersText);
+      
+      const msgText = `🚀 ЗАЯВКА С КВИЗА!%0A%0A👤 Имя: ${nameSafe}%0A📞 Тел: ${phoneSafe}%0A📧 Email: ${emailSafe}%0A%0A📋 ПОТРЕБНОСТИ:%0A${answersSafe}`;
+      
+      const token = '8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI';
+      const chatId = '362845594';
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${msgText}`;
+      new Image().src = url;
+      
+      toast({
+        title: "Спасибо за заявку!",
+        description: "Мы свяжемся с вами в ближайшее время с персональным предложением.",
+      });
+      
+      setCurrentStep(0);
+      setQuizAnswers([]);
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Ошибка отправки",
+        description: "Попробуйте еще раз или свяжитесь с нами по телефону.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -196,8 +234,13 @@ export function QuizSection() {
                           <FormControl>
                             <Input 
                               type="tel" 
-                              placeholder="+7 (___) ___-__-__" 
-                              {...field} 
+                              placeholder="+7 (999) 000-00-00" 
+                              value={field.value}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                field.onChange(val.length < field.value.length ? val : formatPhoneNumber(val));
+                              }}
+                              maxLength={18}
                               data-testid="quiz-input-phone"
                             />
                           </FormControl>
@@ -227,10 +270,10 @@ export function QuizSection() {
                     <Button 
                       type="submit" 
                       className="w-full bg-accent text-accent-foreground py-3 hover:bg-accent/90"
-                      disabled={submitQuizMutation.isPending}
+                      disabled={isSubmitting}
                       data-testid="quiz-submit-button"
                     >
-                      {submitQuizMutation.isPending ? "Отправка..." : "Получить персональное предложение"}
+                      {isSubmitting ? "Отправка..." : "Получить персональное предложение"}
                     </Button>
                   </form>
                 </Form>
