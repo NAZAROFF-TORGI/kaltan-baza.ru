@@ -60,7 +60,13 @@ export function DocumentDownloadModal({
       
       // --- TELEGRAM NOTIFICATION START ---
       const cleanPhone = phone.replace(/[^\d+]/g, '');
-      const msgText = `🔥 <b>НОВЫЙ ЛИД!</b>%0A%0A👤 <b>Имя:</b> ${name}%0A📞 <b>Тел:</b> ${phone}%0A📧 <b>Email:</b> ${email}%0A📄 <b>Скачал:</b> ${documentTitle}`;
+      
+      const nameSafe = encodeURIComponent(name);
+      const phoneSafe = encodeURIComponent(phone);
+      const emailSafe = encodeURIComponent(email);
+      const docSafe = encodeURIComponent(documentTitle);
+      
+      const msgText = `🔥 *НОВЫЙ ЛИД!*%0A%0A👤 *Имя:* ${nameSafe}%0A📞 *Тел:* ${phoneSafe}%0A📧 *Email:* ${emailSafe}%0A📄 *Скачал:* ${docSafe}`;
       
       const keyboard = {
         inline_keyboard: [
@@ -70,12 +76,12 @@ export function DocumentDownloadModal({
           ]
         ]
       };
-      const keyboardJson = encodeURIComponent(JSON.stringify(keyboard));
+      const keyboardSafe = encodeURIComponent(JSON.stringify(keyboard));
       
-      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=HTML&reply_markup=${keyboardJson}`, {
-        method: 'POST',
+      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=Markdown&reply_markup=${keyboardSafe}`, {
+        method: 'GET',
         mode: 'no-cors'
-      }).then(() => console.log('Sent to TG')).catch(e => console.error(e));
+      }).then(() => console.log('Lead sent successfully')).catch(e => console.error('Telegram Error:', e));
       // --- TELEGRAM NOTIFICATION END ---
       
       const link = document.createElement('a');
