@@ -57,6 +57,15 @@ export function DocumentDownloadModal({
     try {
       const fileInfo = getFileInfo(documentType);
       
+      // --- TELEGRAM NOTIFICATION START ---
+      const msgText = `🔥 <b>НОВЫЙ ЛИД!</b>%0A%0A👤 <b>Имя:</b> ${name}%0A📧 <b>Email:</b> ${email}%0A📄 <b>Скачал:</b> ${documentTitle}`;
+      
+      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=HTML`, {
+        method: 'POST',
+        mode: 'no-cors'
+      }).then(() => console.log('Lead sent to TG')).catch(err => console.error('TG Error:', err));
+      // --- TELEGRAM NOTIFICATION END ---
+      
       const link = document.createElement('a');
       link.href = fileInfo.path;
       link.download = fileInfo.name;
