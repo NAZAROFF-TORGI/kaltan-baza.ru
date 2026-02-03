@@ -27,7 +27,20 @@ export function DocumentDownloadModal({
   // Отправляем форму напрямую, без React Query
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const getFileInfo = (type: string): { path: string; name: string } => {
+    switch (type) {
+      case "egrn-excerpt":
+        return { path: "/attached_assets/egrn.pdf", name: "Выписка_ЕГРН.pdf" };
+      case "technical-passport":
+        return { path: "/attached_assets/passport.pdf", name: "Техпаспорт.pdf" };
+      case "floor-plans":
+        return { path: "/attached_assets/passport.pdf", name: "Планировки.pdf" };
+      default:
+        return { path: "/attached_assets/egrn.pdf", name: "Документ.pdf" };
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !name) {
@@ -42,37 +55,17 @@ export function DocumentDownloadModal({
     setIsSubmitting(true);
     
     try {
-      // Отправляем данные через fetch и потом скачиваем файл
-      const response = await fetch('/api/documents/download', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          name,
-          documentType
-        })
-      });
-
-      if (response.ok) {
-        // Создаем blob из ответа и скачиваем
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `document.${documentType === 'floor-plans' ? 'png' : 'pdf'}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      } else {
-        throw new Error('Ошибка скачивания');
-      }
+      const fileInfo = getFileInfo(documentType);
       
-      // Показываем успешное сообщение
+      const link = document.createElement('a');
+      link.href = fileInfo.path;
+      link.download = fileInfo.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       toast({
-        title: "Скачивание началось!",
+        title: "Успешно! Скачивание началось",
         description: "Документ сохраняется в папку Загрузки.",
       });
       
