@@ -13,6 +13,16 @@ interface DocumentDownloadModalProps {
   triggerClassName?: string;
 }
 
+const formatPhoneNumber = (value: string) => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length < 2) return `+7 (${digits.slice(1)}`;
+  if (digits.length < 5) return `+7 (${digits.slice(1)}`;
+  if (digits.length < 8) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`;
+  if (digits.length < 10) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
+};
+
 export function DocumentDownloadModal({ 
   children, 
   documentType, 
@@ -44,10 +54,30 @@ export function DocumentDownloadModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !name || !phone) {
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length < 11) {
       toast({
-        title: "Заполните все поля",
-        description: "Укажите ваше имя, телефон и email для получения документов.",
+        title: "Некорректный телефон",
+        description: "Пожалуйста, введите все 11 цифр номера.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Некорректный Email",
+        description: "Пожалуйста, введите корректный адрес электронной почты.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!name.trim()) {
+      toast({
+        title: "Заполните имя",
+        description: "Укажите ваше имя для получения документов.",
         variant: "destructive",
       });
       return;
@@ -66,7 +96,7 @@ export function DocumentDownloadModal({
       const emailSafe = encodeURIComponent(email);
       const docSafe = encodeURIComponent(documentTitle);
       
-      const msgText = `🔥 *НОВЫЙ ЛИД!*%0A%0A👤 *Имя:* ${nameSafe}%0A📞 *Тел:* ${phoneSafe}%0A📧 *Email:* ${emailSafe}%0A📄 *Скачал:* ${docSafe}`;
+      const msgText = `🔥 НОВЫЙ ЛИД!%0A%0A👤 Имя: ${nameSafe}%0A📞 Тел: ${phoneSafe}%0A📧 Email: ${emailSafe}%0A📄 Скачал: ${docSafe}`;
       
       const keyboard = {
         inline_keyboard: [
@@ -78,10 +108,11 @@ export function DocumentDownloadModal({
       };
       const keyboardSafe = encodeURIComponent(JSON.stringify(keyboard));
       
-      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=Markdown&reply_markup=${keyboardSafe}`, {
-        method: 'GET',
-        mode: 'no-cors'
-      }).then(() => console.log('Lead sent successfully')).catch(e => console.error('Telegram Error:', e));
+      const token = '8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI';
+      const chatId = '362845594';
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${msgText}&reply_markup=${keyboardSafe}`;
+      const img = new Image();
+      img.src = url;
       // --- TELEGRAM NOTIFICATION END ---
       
       const link = document.createElement('a');
@@ -92,7 +123,7 @@ export function DocumentDownloadModal({
       document.body.removeChild(link);
       
       toast({
-        title: "Успешно! Скачивание началось",
+        title: "Спасибо! Документы скачиваются",
         description: "Документ сохраняется в папку Загрузки.",
       });
       
@@ -147,7 +178,11 @@ export function DocumentDownloadModal({
               type="tel"
               placeholder="+7 (999) 000-00-00"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setPhone(val.length < phone.length ? val : formatPhoneNumber(val));
+              }}
+              maxLength={18}
               required
               data-testid="download-phone-input"
             />
