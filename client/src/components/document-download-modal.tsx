@@ -21,6 +21,7 @@ export function DocumentDownloadModal({
 }: DocumentDownloadModalProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
 
@@ -43,10 +44,10 @@ export function DocumentDownloadModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !name) {
+    if (!email || !name || !phone) {
       toast({
         title: "Заполните все поля",
-        description: "Укажите ваше имя и email для получения документов.",
+        description: "Укажите ваше имя, телефон и email для получения документов.",
         variant: "destructive",
       });
       return;
@@ -58,12 +59,23 @@ export function DocumentDownloadModal({
       const fileInfo = getFileInfo(documentType);
       
       // --- TELEGRAM NOTIFICATION START ---
-      const msgText = `🔥 <b>НОВЫЙ ЛИД!</b>%0A%0A👤 <b>Имя:</b> ${name}%0A📧 <b>Email:</b> ${email}%0A📄 <b>Скачал:</b> ${documentTitle}`;
+      const cleanPhone = phone.replace(/[^\d+]/g, '');
+      const msgText = `🔥 <b>НОВЫЙ ЛИД!</b>%0A%0A👤 <b>Имя:</b> ${name}%0A📞 <b>Тел:</b> ${phone}%0A📧 <b>Email:</b> ${email}%0A📄 <b>Скачал:</b> ${documentTitle}`;
       
-      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=HTML`, {
+      const keyboard = {
+        inline_keyboard: [
+          [
+            { text: "📞 Позвонить", url: `tel:${cleanPhone}` },
+            { text: "✉️ Написать", url: `mailto:${email}` }
+          ]
+        ]
+      };
+      const keyboardJson = encodeURIComponent(JSON.stringify(keyboard));
+      
+      fetch(`https://api.telegram.org/bot8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI/sendMessage?chat_id=362845594&text=${msgText}&parse_mode=HTML&reply_markup=${keyboardJson}`, {
         method: 'POST',
         mode: 'no-cors'
-      }).then(() => console.log('Lead sent to TG')).catch(err => console.error('TG Error:', err));
+      }).then(() => console.log('Sent to TG')).catch(e => console.error(e));
       // --- TELEGRAM NOTIFICATION END ---
       
       const link = document.createElement('a');
@@ -81,6 +93,7 @@ export function DocumentDownloadModal({
       setIsOpen(false);
       setEmail("");
       setName("");
+      setPhone("");
       
     } catch (error) {
       toast({
@@ -118,6 +131,19 @@ export function DocumentDownloadModal({
               onChange={(e) => setName(e.target.value)}
               required
               data-testid="download-name-input"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="phone">Телефон</Label>
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="+7 (999) 000-00-00"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              data-testid="download-phone-input"
             />
           </div>
           
