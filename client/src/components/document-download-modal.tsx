@@ -89,8 +89,6 @@ export function DocumentDownloadModal({
       const fileInfo = getFileInfo(documentType);
       
       // --- TELEGRAM NOTIFICATION START ---
-      const cleanPhone = phone.replace(/[^\d+]/g, '');
-      
       const nameSafe = encodeURIComponent(name);
       const phoneSafe = encodeURIComponent(phone);
       const emailSafe = encodeURIComponent(email);
@@ -98,21 +96,10 @@ export function DocumentDownloadModal({
       
       const msgText = `🔥 НОВЫЙ ЛИД!%0A%0A👤 Имя: ${nameSafe}%0A📞 Тел: ${phoneSafe}%0A📧 Email: ${emailSafe}%0A📄 Скачал: ${docSafe}`;
       
-      const keyboard = {
-        inline_keyboard: [
-          [
-            { text: "📞 Позвонить", url: `tel:${cleanPhone}` },
-            { text: "✉️ Написать", url: `mailto:${email}` }
-          ]
-        ]
-      };
-      const keyboardSafe = encodeURIComponent(JSON.stringify(keyboard));
-      
       const token = '8405875788:AAFIj7AOwb9H-xUr-a90vVd500nHgKh9SaI';
       const chatId = '362845594';
-      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${msgText}&reply_markup=${keyboardSafe}`;
-      const img = new Image();
-      img.src = url;
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${msgText}`;
+      new Image().src = url;
       // --- TELEGRAM NOTIFICATION END ---
       
       const link = document.createElement('a');
