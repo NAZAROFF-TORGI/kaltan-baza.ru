@@ -1,4 +1,8 @@
-export function SalesMenu() {
+interface SalesMenuProps {
+  onSelect?: (service: string) => void;
+}
+
+export function SalesMenu({ onSelect }: SalesMenuProps) {
   const menuItems = [
     {
       icon: "🏗",
@@ -33,6 +37,7 @@ export function SalesMenu() {
           {menuItems.map((item, index) => (
             <div
               key={index}
+              onClick={() => onSelect?.(item.title)}
               className={`bg-white rounded-xl shadow-lg p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                 item.accent
                   ? "border-2 border-amber-500 ring-2 ring-amber-100"

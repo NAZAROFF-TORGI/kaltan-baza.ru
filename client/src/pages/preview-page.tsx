@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "@/components/navigation";
 import { HeroSection } from "@/components/hero-section";
 import { SalesMenu } from "@/components/sales-menu";
+import { ServiceModal } from "@/components/service-modal";
 import { KeyMetrics } from "@/components/key-metrics";
 import { GallerySection } from "@/components/gallery-section";
 import { LocationSection } from "@/components/location-section";
@@ -23,6 +24,7 @@ interface GalleryItem {
 
 export default function PreviewPage() {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
   const { toast } = useToast();
 
   const trackAnalytics = useMutation({
@@ -102,7 +104,13 @@ export default function PreviewPage() {
 
       <HeroSection onCtaClick={scrollToContact} />
 
-      <SalesMenu />
+      <SalesMenu onSelect={(service) => setSelectedService(service)} />
+
+      <ServiceModal 
+        serviceType={selectedService || ""} 
+        isOpen={selectedService !== null}
+        onClose={() => setSelectedService(null)}
+      />
 
       <KeyMetrics />
 
