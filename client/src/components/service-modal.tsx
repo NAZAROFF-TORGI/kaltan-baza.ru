@@ -76,6 +76,11 @@ export function ServiceModal({ serviceType, isOpen, onClose }: ServiceModalProps
       const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${msgText}`;
       new Image().src = url;
       // --- TELEGRAM NOTIFICATION END ---
+
+      if (typeof window !== 'undefined' && (window as any).ym) {
+        // @ts-ignore
+        window.ym(106978141, 'reachGoal', 'form_submit');
+      }
       
       toast({
         title: "Заявка отправлена!",
