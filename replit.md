@@ -51,14 +51,16 @@ Preferred communication style: Simple, everyday language.
 
 ### Performance Optimizations
 - **Font Loading**: Only Inter font loaded from Google Fonts (25+ unused families removed)
+- **Font Awesome**: Loaded async via `media="print" onload` pattern instead of render-blocking CSS `@import`
 - **Yandex Maps**: Script loaded with `defer` attribute to avoid render-blocking
-- **Hero Video**: `preload="metadata"` instead of `preload="auto"` to reduce initial payload (22MB video)
+- **Hero Video**: Desktop only (22MB video); mobile gets a lightweight static poster image (exterior-01.jpg ~380KB)
+- **Image Rendering**: Removed `image-rendering: crisp-edges` global rule that caused GPU strain on mobile
 - **Lazy Loading**: All gallery images and before-after slider images use `loading="lazy"` + `decoding="async"`
 - **Overflow Control**: Global `overflow-x: hidden` on html/body + root container to prevent mobile horizontal scroll
 - **Code Splitting**: Vite-based build system with automatic chunk splitting
-- **Development Experience**: Hot module replacement and error overlay for rapid iteration
 
 ### Mobile Responsiveness
+- **Hero Section**: Static poster image replaces 22MB video on mobile (< 768px), `useIsMobile()` hook manages conditional rendering
 - **Navigation**: Compact logo (h-8 → h-14) and text (text-xs → text-xl) scaling; phone button icon-only on mobile; grouped with hamburger menu
 - **Overflow Prevention**: `overflow-x-hidden` on root container + global CSS; all elements use proper shrink/truncate
 - **Tested on**: 320px (iPhone SE), 375px (iPhone), 1280px (desktop)

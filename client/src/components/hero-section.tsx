@@ -1,26 +1,36 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface HeroSectionProps {
   onCtaClick: () => void;
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
+
 export function HeroSection({ onCtaClick }: HeroSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     const video = videoRef.current;
     if (video) {
       video.muted = true;
       const playPromise = video.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          video.muted = true;
-          video.play().catch(() => {});
-        });
+        playPromise.catch(() => {});
       }
     }
-  }, []);
+  }, [isMobile]);
 
   const scrollToSpecs = () => {
     const element = document.getElementById('specs');
@@ -31,25 +41,37 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <section className="relative h-screen overflow-hidden" data-testid="hero-section">
-      {/* Neutral dark background while video loads */}
+      {/* Neutral dark background / mobile poster */}
       <div className="absolute inset-0 bg-slate-900" />
+      
+      {/* Static poster for mobile */}
+      {isMobile && (
+        <img
+          src="/attached_assets/exterior-01.jpg"
+          alt="Промышленный объект Калтан"
+          className="absolute inset-0 w-full h-full object-cover z-[5]"
+          fetchPriority="high"
+        />
+      )}
       
       {/* Video Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 z-10"></div>
       
-      {/* Real Video Background - Drone footage */}
-      <video 
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover hero-video z-[5]"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        data-testid="hero-video"
-      >
-        <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
-      </video>
+      {/* Video Background - Desktop only */}
+      {!isMobile && (
+        <video 
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover hero-video z-[5]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          data-testid="hero-video"
+        >
+          <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
+        </video>
+      )}
       
       <div className="relative z-20 flex items-center justify-center h-full">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
