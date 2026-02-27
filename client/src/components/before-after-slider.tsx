@@ -222,6 +222,8 @@ export function BeforeAfterSlider({ className }: BeforeAfterSliderProps) {
                 src={currentAfterData.image} 
                 alt="Визуализация современного производства в цехе Калтан"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
                 data-testid="after-image"
               />
               
@@ -241,6 +243,8 @@ export function BeforeAfterSlider({ className }: BeforeAfterSliderProps) {
                 src={beforeImage} 
                 alt="Интерьер цеха с кран-балкой 3-5 тонн и высотой потолков 9м"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
                 data-testid="before-image"
               />
               

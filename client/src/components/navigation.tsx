@@ -25,16 +25,16 @@ export function Navigation({ onPhoneClick }: NavigationProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div 
-            className="flex items-center space-x-1 cursor-pointer hover:opacity-80 transition-opacity" 
+            className="flex items-center space-x-1 cursor-pointer hover:opacity-80 transition-opacity min-w-0 shrink" 
             data-testid="logo"
             onClick={scrollToContact}
           >
             <img 
               src="/attached_assets/logo-kaltan.png" 
               alt="Герб Калтана" 
-              className="h-14 w-auto"
+              className="h-8 sm:h-14 w-auto shrink-0"
             />
-            <span className="font-semibold text-xl">Промобъект Калтан</span>
+            <span className="font-semibold text-xs sm:text-xl truncate">Промобъект Калтан</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -69,24 +69,25 @@ export function Navigation({ onPhoneClick }: NavigationProps) {
             </button>
           </div>
 
-          {/* Phone Button */}
-          <Button 
-            onClick={onPhoneClick}
-            className="bg-accent text-accent-foreground hover:bg-accent/90"
-            data-testid="nav-phone-button"
-          >
-            <i className="fas fa-phone mr-2"></i>
-            Позвонить
-          </Button>
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Button 
+              onClick={onPhoneClick}
+              size="sm"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 px-2 sm:px-4"
+              data-testid="nav-phone-button"
+            >
+              <i className="fas fa-phone md:mr-2"></i>
+              <span className="hidden md:inline">Позвонить</span>
+            </Button>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            data-testid="mobile-menu-button"
-          >
-            <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
-          </button>
+            <button
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              data-testid="mobile-menu-button"
+            >
+              <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}

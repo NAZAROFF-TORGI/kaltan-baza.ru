@@ -103,7 +103,7 @@ export default function IndustrialLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground" data-testid="industrial-landing">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden" data-testid="industrial-landing">
       <Navigation onPhoneClick={handlePhoneClick} />
 
       <HeroSection onCtaClick={scrollToContact} />

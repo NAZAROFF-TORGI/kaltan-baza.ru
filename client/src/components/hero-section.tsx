@@ -45,7 +45,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         data-testid="hero-video"
       >
         <source src="/attached_assets/hero-video.mp4" type="video/mp4" />

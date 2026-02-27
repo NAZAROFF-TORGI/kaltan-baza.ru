@@ -50,9 +50,18 @@ Preferred communication style: Simple, everyday language.
 - **Trust Building**: Document downloads and credibility indicators
 
 ### Performance Optimizations
-- **Image Optimization**: Unsplash URLs with responsive sizing parameters
+- **Font Loading**: Only Inter font loaded from Google Fonts (25+ unused families removed)
+- **Yandex Maps**: Script loaded with `defer` attribute to avoid render-blocking
+- **Hero Video**: `preload="metadata"` instead of `preload="auto"` to reduce initial payload (22MB video)
+- **Lazy Loading**: All gallery images and before-after slider images use `loading="lazy"` + `decoding="async"`
+- **Overflow Control**: Global `overflow-x: hidden` on html/body + root container to prevent mobile horizontal scroll
 - **Code Splitting**: Vite-based build system with automatic chunk splitting
 - **Development Experience**: Hot module replacement and error overlay for rapid iteration
+
+### Mobile Responsiveness
+- **Navigation**: Compact logo (h-8 → h-14) and text (text-xs → text-xl) scaling; phone button icon-only on mobile; grouped with hamburger menu
+- **Overflow Prevention**: `overflow-x-hidden` on root container + global CSS; all elements use proper shrink/truncate
+- **Tested on**: 320px (iPhone SE), 375px (iPhone), 1280px (desktop)
 
 ## External Dependencies
 

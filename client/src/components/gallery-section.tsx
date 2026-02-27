@@ -278,6 +278,7 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
                 alt={item.alt} 
                 className="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
               />
               <div className={`absolute inset-0 transition-opacity duration-300 ${
                 index === currentSlide ? 'bg-blue-500/20' : 'bg-black/0 hover:bg-black/20'
