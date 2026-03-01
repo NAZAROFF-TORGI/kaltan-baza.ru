@@ -9,7 +9,7 @@ interface HeroSectionProps {
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false,
-  );
+  ); // Синхронное определение мобильной версии
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", check);
@@ -43,27 +43,25 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <section
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden bg-slate-900"
       data-testid="hero-section"
     >
-      <div className="absolute inset-0 bg-slate-900" />
-
+      {/* Слой 0: Фоновое изображение для мобильных */}
       {isMobile && (
         <img
           src={heroPoster}
           alt="Промышленный объект Калтан"
-          className="absolute inset-0 w-full h-full object-cover z-[5] max-w-full"
+          className="absolute inset-0 w-full h-full object-cover z-0 max-w-full"
           style={{ imageOrientation: "from-image" }}
           fetchPriority="high"
         />
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 z-10"></div>
-
+      {/* Слой 1: Видео для ПК */}
       {!isMobile && (
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover hero-video z-[5]"
+          className="absolute inset-0 w-full h-full object-cover hero-video z-0"
           autoPlay
           muted
           loop
@@ -75,6 +73,10 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         </video>
       )}
 
+      {/* Слой 2: Градиентное затемнение (z-10) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
+
+      {/* Слой 3: Основной контент (z-20) */}
       <div className="relative z-20 flex items-center justify-center h-full">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
           <h1
@@ -117,8 +119,9 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </div>
 
+      {/* Индикатор прокрутки */}
       <div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20"
         data-testid="scroll-indicator"
       >
         <i className="fas fa-chevron-down text-2xl"></i>
