@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import heroPoster from "@/assets/exterior-01-mobile.jpg"; // Импорт оптимизированного постера
+import heroPoster from "@/assets/exterior-01-mobile.jpg";
 
 interface HeroSectionProps {
   onCtaClick: () => void;
@@ -9,7 +9,7 @@ interface HeroSectionProps {
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false,
-  ); // Синхронное определение мобильной версии
+  );
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", check);
@@ -27,103 +27,80 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
     const video = videoRef.current;
     if (video) {
       video.muted = true;
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
+      video.play().catch(() => {});
     }
   }, [isMobile]);
 
   const scrollToSpecs = () => {
-    const element = document.getElementById("specs");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById("specs")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section
-      className="relative h-screen overflow-hidden bg-slate-900"
+      className="relative min-h-screen w-full overflow-hidden bg-slate-900"
       data-testid="hero-section"
     >
-      {/* Слой 0: Фоновое изображение для мобильных */}
-      {isMobile && (
-        <img
-          src={heroPoster}
-          alt="Промышленный объект Калтан"
-          className="absolute inset-0 w-full h-full object-cover z-0 max-w-full"
-          style={{ imageOrientation: "from-image" }}
-          fetchPriority="high"
-        />
-      )}
-
-      {/* Слой 1: Видео для ПК */}
-      {!isMobile && (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover hero-video z-0"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          data-testid="hero-video"
-        >
-          <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* Слой 2: Градиентное затемнение (z-10) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
-
-      {/* Слой 3: Основной контент (z-20) */}
-      <div className="relative z-20 flex items-center justify-center h-full">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <h1
-            className="text-3xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in"
-            data-testid="hero-title"
+      {/* 1. ФОНОВЫЙ СЛОЙ (Картинка или Видео) - z-0 */}
+      <div className="absolute inset-0 z-0">
+        {isMobile ? (
+          <img
+            src={heroPoster}
+            alt="Промышленный объект Калтан"
+            className="w-full h-full object-cover"
+            style={{ imageOrientation: "from-image" }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
           >
+            <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
+          </video>
+        )}
+      </div>
+
+      {/* 2. СЛОЙ ЗАТЕМНЕНИЯ - z-10 */}
+      <div className="absolute inset-0 bg-black/50 z-10"></div>
+
+      {/* 3. СЛОЙ КОНТЕНТА (Всегда виден) - z-20 */}
+      <div className="relative z-20 flex items-center justify-center min-h-screen w-full">
+        <div className="max-w-4xl mx-auto px-4 py-20 text-center text-white w-full">
+          <h1 className="text-3xl md:text-6xl font-bold mb-6 leading-tight">
             Автономный промышленный объект
             <br />
             <span className="text-accent">1300 м²</span> на участке 26 соток
           </h1>
-          <p
-            className="text-lg md:text-2xl mb-8 text-gray-200 animate-fade-in"
-            data-testid="hero-subtitle"
-          >
+          <p className="text-lg md:text-2xl mb-8 text-gray-200">
             Своя скважина и котельная. Запускайте производство, склад, гараж без
             промедлений.
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full animate-fade-in">
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
             <Button
               onClick={onCtaClick}
               size="lg"
-              className="bg-accent text-accent-foreground px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105 w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
-              data-testid="hero-cta-primary"
+              className="bg-accent text-accent-foreground px-8 py-4 text-sm md:text-lg font-semibold w-full md:w-auto h-auto whitespace-normal"
             >
-              <i className="fas fa-calculator mr-2 shrink-0"></i>
               Получить планировки и расчет стоимости
             </Button>
             <Button
               onClick={scrollToSpecs}
               variant="outline"
               size="lg"
-              className="bg-white/20 text-white border-white/30 px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-white/30 transition-all w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
-              data-testid="hero-cta-secondary"
+              className="bg-white/20 text-white border-white/30 px-8 py-4 text-sm md:text-lg font-semibold w-full md:w-auto h-auto"
             >
-              <i className="fas fa-info-circle mr-2 shrink-0"></i>
               Подробнее об объекте
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Индикатор прокрутки */}
-      <div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20"
-        data-testid="scroll-indicator"
-      >
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20">
         <i className="fas fa-chevron-down text-2xl"></i>
       </div>
     </section>
