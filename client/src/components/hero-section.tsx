@@ -53,7 +53,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         <img
           src={heroPoster}
           alt="Промышленный объект Калтан"
-          className="absolute inset-0 w-full h-full object-cover z-[5]"
+          className="absolute inset-0 w-full h-full max-w-full h-auto object-cover z-[5]"
         />
       )}
       
