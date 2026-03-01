@@ -82,24 +82,25 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
           <p className="text-xl md:text-2xl mb-8 text-gray-200 animate-fade-in" data-testid="hero-subtitle">
             Своя скважина и котельная. Запускайте производство, склад, гараж без промедлений.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+         
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full animate-fade-in">
             <Button 
               onClick={onCtaClick}
               size="lg"
-              className="bg-accent text-accent-foreground px-8 py-4 text-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105"
+              className="bg-accent text-accent-foreground px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105 w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
               data-testid="hero-cta-primary"
             >
-              <i className="fas fa-calculator mr-2"></i>
+              <i className="fas fa-calculator mr-2 shrink-0"></i>
               Получить планировки и расчет стоимости
             </Button>
             <Button
               onClick={scrollToSpecs}
               variant="outline"
               size="lg"
-              className="bg-white/20 text-white border-white/30 px-8 py-4 text-lg font-semibold hover:bg-white/30 transition-all"
+              className="bg-white/20 text-white border-white/30 px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-white/30 transition-all w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
               data-testid="hero-cta-secondary"
             >
-              <i className="fas fa-info-circle mr-2"></i>
+              <i className="fas fa-info-circle mr-2 shrink-0"></i>
               Подробнее об объекте
             </Button>
           </div>
