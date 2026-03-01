@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import logoImg from '@assets/logo-kaltan-opt.png';
 
 interface NavigationProps {
   onPhoneClick: () => void;
@@ -30,7 +31,7 @@ export function Navigation({ onPhoneClick }: NavigationProps) {
             onClick={scrollToContact}
           >
             <img 
-              src="/attached_assets/logo-kaltan-opt.png" 
+              src={logoImg} 
               alt="Герб Калтана" 
               className="h-8 sm:h-14 w-auto shrink-0"
             />

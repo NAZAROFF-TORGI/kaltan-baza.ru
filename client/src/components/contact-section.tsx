@@ -10,6 +10,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { UserAgreement } from "@/components/user-agreement";
 import { useState } from "react";
+import logoImg from '@assets/logo-kaltan-opt.png';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Имя должно содержать минимум 2 символа"),
@@ -89,7 +90,7 @@ export function ContactSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="flex justify-center items-center mb-6">
-            <img src="/attached_assets/logo-kaltan-opt.png" alt="Логотип Промобъект Калтан" className="h-12 w-auto mr-3" />
+            <img src={logoImg} alt="Логотип Промобъект Калтан" className="h-12 w-auto mr-3" />
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Контакты</h2>
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto">

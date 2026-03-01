@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import logoImg from '@assets/logo-kaltan-opt.png';
 import { Navigation } from "@/components/navigation";
 import { HeroSection } from "@/components/hero-section";
 import { SalesMenu } from "@/components/sales-menu";
@@ -149,7 +150,7 @@ export default function PreviewPage() {
                 onClick={scrollToContact}
               >
                 <img 
-                  src="/attached_assets/logo-kaltan.png" 
+                  src={logoImg} 
                   alt="Герб Калтан" 
                   className="h-20 w-auto group-hover:scale-105 transition-transform duration-300" 
                 />

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
+import heroPoster from '@assets/exterior-01-mobile.jpg';
 
 interface HeroSectionProps {
   onCtaClick: () => void;
@@ -50,7 +51,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
       
       {isMobile && (
         <img
-          src="/attached_assets/exterior-01-mobile.jpg"
+          src={heroPoster}
           alt="Промышленный объект Калтан"
           className="absolute inset-0 w-full h-full object-cover z-[5]"
         />

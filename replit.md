@@ -59,6 +59,7 @@ Preferred communication style: Simple, everyday language.
 - **Overflow Control**: Global `overflow-x: hidden` on html/body + root container to prevent mobile horizontal scroll
 - **Code Splitting**: Vite-based build system with automatic chunk splitting
 - **Image Optimization**: All gallery/exterior/interior photos compressed to 130-320KB (originals were 1.5-6.7MB). Before-after slider PNGs (1.8MB each) converted to optimized JPGs (~240KB). Logo compressed from 530KB to 18KB.
+- **Asset Bundling**: ALL images use `@assets/` Vite imports (NOT `/attached_assets/` URL paths) to guarantee inclusion in production builds. Only hero-video.mp4 uses a static URL path (served from `client/public/attached_assets/`).
 - **useIsMobile() Hook**: Uses synchronous `useState(() => window.innerWidth < 768)` initializer to detect mobile on FIRST render — prevents 22MB video element from ever being created on mobile
 
 ### Mobile Responsiveness

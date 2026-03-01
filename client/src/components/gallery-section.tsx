@@ -2,6 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { DocumentDownloadModal } from "./document-download-modal";
 
+import exterior01 from '@assets/exterior-01-mobile.jpg';
+import exterior02 from '@assets/exterior-02-opt.jpg';
+import exterior03 from '@assets/exterior-03-opt.jpg';
+import exterior04 from '@assets/exterior-04-opt.jpg';
+import exterior05 from '@assets/exterior-05-opt.jpg';
+import exterior06 from '@assets/exterior-06-opt.jpg';
+import interior01 from '@assets/interior-01-opt.jpg';
+import interior02 from '@assets/interior-02-opt.jpg';
+import interior03 from '@assets/interior-03-opt.jpg';
+import interior04 from '@assets/interior-04-opt.jpg';
+
 interface GalleryItem {
   src: string;
   alt: string;
@@ -20,54 +31,53 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const galleryItems: GalleryItem[] = [
-    // Экстерьер - новые фотографии
     {
-      src: "/attached_assets/exterior-01-mobile.jpg",
+      src: exterior01,
       alt: "Внешний вид промышленного объекта в Калтане, 1300 м²",
       category: "exterior"
     },
     {
-      src: "/attached_assets/exterior-02-opt.jpg",
+      src: exterior02,
       alt: "Общий вид промышленного здания с информационным баннером",
       category: "exterior"
     },
     {
-      src: "/attached_assets/exterior-03-opt.jpg",
+      src: exterior03,
       alt: "Металлические конструкции кран-балки и территория объекта",
       category: "exterior"
     },
     {
-      src: "/attached_assets/exterior-04-opt.jpg",
+      src: exterior04,
       alt: "Фасад здания с красными воротами и информационным баннером",
       category: "exterior"
     },
     {
-      src: "/attached_assets/exterior-05-opt.jpg",
+      src: exterior05,
       alt: "Вид объекта с табличкой 'Продажа 1300 м²' в зимний период",
       category: "exterior"
     },
     {
-      src: "/attached_assets/exterior-06-opt.jpg",
+      src: exterior06,
       alt: "Панорамный вид промышленного комплекса с высоты зимой",
       category: "exterior"
     },
     {
-      src: "/attached_assets/interior-01-opt.jpg",
+      src: interior01,
       alt: "Интерьер цеха с кран-балкой 3-5 тонн и высотой потолков 9м",
       category: "interior"
     },
     {
-      src: "/attached_assets/interior-02-opt.jpg",
+      src: interior02,
       alt: "Интерьер цеха с автомобилем для демонстрации масштаба помещения",
       category: "interior"
     },
     {
-      src: "/attached_assets/interior-03-opt.jpg",
+      src: interior03,
       alt: "Внутренние помещения с большими окнами и естественным освещением",
       category: "interior"
     },
     {
-      src: "/attached_assets/interior-04-opt.jpg",
+      src: interior04,
       alt: "Цех с металлическими конструкциями и промышленным оборудованием",
       category: "interior"
     }
@@ -83,7 +93,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
     ? galleryItems 
     : galleryItems.filter(item => item.category === activeFilter);
 
-  // Автопроигрывание слайдов
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -96,7 +105,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
     return () => clearInterval(interval);
   }, [isAutoplay, filteredItems.length]);
 
-  // Сброс текущего слайда при смене фильтра
   useEffect(() => {
     setCurrentSlide(0);
   }, [activeFilter]);
@@ -128,7 +136,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
             Профессиональные фотографии промышленного комплекса
           </p>
           
-          {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-3 mb-8" data-testid="gallery-filters">
             {filters.map((filter) => (
               <Button
@@ -145,9 +152,7 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
           </div>
         </div>
 
-        {/* Modern Carousel Gallery */}
         <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
-          {/* Main Carousel */}
           <div className="relative h-96 md:h-[500px] lg:h-[600px]" ref={carouselRef}>
             {filteredItems.map((item, index) => (
               <div
@@ -171,10 +176,8 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
                   data-testid={`carousel-image-${index}`}
                 />
                 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 
-                {/* Image Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <div className="flex items-center justify-between">
                     <div>
@@ -197,7 +200,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
               </div>
             ))}
 
-            {/* Navigation Arrows */}
             {filteredItems.length > 1 && (
               <>
                 <button
@@ -217,17 +219,14 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
               </>
             )}
 
-            {/* Slide Counter */}
             <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-mono">
               {currentSlide + 1} / {filteredItems.length}
             </div>
           </div>
 
-          {/* Thumbnail Navigation */}
           {filteredItems.length > 1 && (
             <div className="p-4 bg-gray-50 border-t">
               <div className="flex items-center justify-center space-x-4">
-                {/* Thumbnail Dots */}
                 <div className="flex space-x-2">
                   {filteredItems.map((_, index) => (
                     <button
@@ -243,7 +242,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
                   ))}
                 </div>
 
-                {/* Autoplay Toggle */}
                 <div className="flex items-center space-x-2 ml-4">
                   <Button
                     onClick={toggleAutoplay}
@@ -261,7 +259,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
           )}
         </div>
 
-        {/* Thumbnail Grid for Quick Access */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
           {filteredItems.slice(0, 10).map((item, index) => (
             <div
@@ -291,7 +288,6 @@ export function GallerySection({ onLightboxOpen, onDownloadClick }: GallerySecti
           ))}
         </div>
         
-        {/* Action Buttons */}
         <div className="text-center space-y-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <DocumentDownloadModal

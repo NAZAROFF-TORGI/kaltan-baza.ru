@@ -15,7 +15,7 @@ import { QuizSection } from "@/components/quiz-section";
 import { ContactSection } from "@/components/contact-section";
 import { LightboxModal } from "@/components/lightbox-modal";
 import { BeforeAfterSlider } from "@/components/before-after-slider";
-import logo from "@/assets/logo.png";
+import logoImg from '@assets/logo-kaltan-opt.png';
 
 interface GalleryItem {
   src: string;
@@ -157,7 +157,7 @@ export default function IndustrialLanding() {
                 onClick={scrollToContact}
               >
                 <img 
-                  src="/attached_assets/logo-kaltan-opt.png" 
+                  src={logoImg} 
                   alt="Герб Калтан" 
                   className="h-20 w-auto group-hover:scale-105 transition-transform duration-300" 
                 />
