@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
-// Импорт изображений
-import beforeImage from '@assets/interior-01.jpg';
-import productionImage from '@assets/generated_images/Wide_workshop_with_narrow_windows_172b4e8f.png';
-import equipmentImage from '@assets/generated_images/Maximum_equipment_storage_potential_0d740492.png';
+import beforeImage from '@assets/interior-01-opt.jpg';
+import productionImage from '@assets/generated_images/Wide_workshop_with_narrow_windows_172b4e8f-opt.jpg';
+import equipmentImage from '@assets/generated_images/Maximum_equipment_storage_potential_0d740492-opt.jpg';
 
 interface BeforeAfterSliderProps {
   className?: string;

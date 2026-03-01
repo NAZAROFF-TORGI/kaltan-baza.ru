@@ -6,7 +6,12 @@ interface HeroSectionProps {
 }
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return true;
+  });
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -41,23 +46,18 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <section className="relative h-screen overflow-hidden" data-testid="hero-section">
-      {/* Neutral dark background / mobile poster */}
       <div className="absolute inset-0 bg-slate-900" />
       
-      {/* Static poster for mobile */}
       {isMobile && (
         <img
-          src="/attached_assets/exterior-01.jpg"
+          src="/attached_assets/exterior-01-mobile.jpg"
           alt="Промышленный объект Калтан"
           className="absolute inset-0 w-full h-full object-cover z-[5]"
-          fetchPriority="high"
         />
       )}
       
-      {/* Video Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 z-10"></div>
       
-      {/* Video Background - Desktop only */}
       {!isMobile && (
         <video 
           ref={videoRef}
@@ -75,19 +75,19 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
       
       <div className="relative z-20 flex items-center justify-center h-full">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in" data-testid="hero-title">
+          <h1 className="text-3xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in" data-testid="hero-title">
             Автономный промышленный объект<br />
             <span className="text-accent">1300 м²</span> на участке 26 соток
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200 animate-fade-in" data-testid="hero-subtitle">
+          <p className="text-lg md:text-2xl mb-8 text-gray-200 animate-fade-in" data-testid="hero-subtitle">
             Своя скважина и котельная. Запускайте производство, склад, гараж без промедлений.
           </p>
          
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full animate-fade-in">
+          <div className="flex flex-col w-full md:flex-row md:w-auto gap-4 justify-center animate-fade-in">
             <Button 
               onClick={onCtaClick}
               size="lg"
-              className="bg-accent text-accent-foreground px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105 w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
+              className="w-full md:w-auto whitespace-normal md:whitespace-nowrap h-auto bg-accent text-accent-foreground px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105"
               data-testid="hero-cta-primary"
             >
               <i className="fas fa-calculator mr-2 shrink-0"></i>
@@ -97,7 +97,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
               onClick={scrollToSpecs}
               variant="outline"
               size="lg"
-              className="bg-white/20 text-white border-white/30 px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-white/30 transition-all w-full md:w-auto h-auto whitespace-normal md:whitespace-nowrap"
+              className="w-full md:w-auto whitespace-normal md:whitespace-nowrap h-auto bg-white/20 text-white border-white/30 px-4 md:px-8 py-3 md:py-4 text-sm md:text-lg font-semibold hover:bg-white/30 transition-all"
               data-testid="hero-cta-secondary"
             >
               <i className="fas fa-info-circle mr-2 shrink-0"></i>
@@ -107,7 +107,6 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </div>
       
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce" data-testid="scroll-indicator">
         <i className="fas fa-chevron-down text-2xl"></i>
       </div>

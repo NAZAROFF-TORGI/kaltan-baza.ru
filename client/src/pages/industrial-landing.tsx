@@ -157,7 +157,7 @@ export default function IndustrialLanding() {
                 onClick={scrollToContact}
               >
                 <img 
-                  src="/attached_assets/logo-kaltan.png" 
+                  src="/attached_assets/logo-kaltan-opt.png" 
                   alt="Герб Калтан" 
                   className="h-20 w-auto group-hover:scale-105 transition-transform duration-300" 
                 />

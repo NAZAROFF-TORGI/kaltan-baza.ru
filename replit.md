@@ -53,17 +53,20 @@ Preferred communication style: Simple, everyday language.
 - **Font Loading**: Only Inter font loaded from Google Fonts (25+ unused families removed)
 - **Font Awesome**: Loaded async via `media="print" onload` pattern instead of render-blocking CSS `@import`
 - **Yandex Maps**: Script loaded with `defer` attribute to avoid render-blocking
-- **Hero Video**: Desktop only (22MB video); mobile gets a lightweight static poster image (exterior-01.jpg ~380KB)
+- **Hero Video**: Desktop only (22MB video); mobile gets a lightweight static poster image (exterior-01-mobile.jpg ~132KB)
 - **Image Rendering**: Removed `image-rendering: crisp-edges` global rule that caused GPU strain on mobile
 - **Lazy Loading**: All gallery images and before-after slider images use `loading="lazy"` + `decoding="async"`
 - **Overflow Control**: Global `overflow-x: hidden` on html/body + root container to prevent mobile horizontal scroll
 - **Code Splitting**: Vite-based build system with automatic chunk splitting
+- **Image Optimization**: All gallery/exterior/interior photos compressed to 130-320KB (originals were 1.5-6.7MB). Before-after slider PNGs (1.8MB each) converted to optimized JPGs (~240KB). Logo compressed from 530KB to 18KB.
+- **useIsMobile() Hook**: Uses synchronous `useState(() => window.innerWidth < 768)` initializer to detect mobile on FIRST render — prevents 22MB video element from ever being created on mobile
 
 ### Mobile Responsiveness
-- **Hero Section**: Static poster image replaces 22MB video on mobile (< 768px), `useIsMobile()` hook manages conditional rendering
+- **Hero Section**: Static poster image (132KB) replaces 22MB video on mobile (< 768px), `useIsMobile()` hook with synchronous init prevents video download
 - **Navigation**: Compact logo (h-8 → h-14) and text (text-xs → text-xl) scaling; phone button icon-only on mobile; grouped with hamburger menu
-- **Overflow Prevention**: `overflow-x-hidden` on root container + global CSS; all elements use proper shrink/truncate
-- **Tested on**: 320px (iPhone SE), 375px (iPhone), 1280px (desktop)
+- **Overflow Prevention**: `overflow-x-hidden` on root container + global CSS; hero CTA buttons use `whitespace-normal md:whitespace-nowrap w-full md:w-auto` to prevent overflow
+- **CTA Buttons**: Mobile-first responsive — `flex-col w-full` on mobile, `md:flex-row md:w-auto` on desktop; `text-sm md:text-lg` font scaling
+- **Tested on**: 375px (iPhone), 1280px (desktop) — verified no elements exceed viewport width
 
 ## External Dependencies
 
