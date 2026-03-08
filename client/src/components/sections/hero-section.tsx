@@ -1,35 +1,82 @@
+import React, {
+  Component,
+  ErrorInfo,
+  ReactNode,
+  useEffect,
+  useRef,
+} from "react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
-import heroPoster from "@/assets/exterior-01-mobile.jpg";
 
+// --- 1. КЛАСС-ПЕРЕХВАТЧИК (ЛОКАЛКАТОР ОШИБОК) ---
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+interface ErrorBoundaryState {
+  hasError: boolean;
+  errorMessage: string;
+  errorStack: string;
+}
+
+class HeroErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, errorMessage: "", errorStack: "" };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    // Если происходит сбой, меняем состояние, чтобы показать красный экран
+    return {
+      hasError: true,
+      errorMessage: error.toString(),
+      errorStack: error.stack || "",
+    };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Критический сбой перехвачен:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-red-700 text-white p-6 z-50">
+          <h1 className="text-2xl md:text-4xl font-bold mb-4 uppercase text-center">
+            Сбой Мобильной Версии
+          </h1>
+          <p className="text-lg mb-4 font-mono text-center bg-black/30 p-2 rounded">
+            {this.state.errorMessage}
+          </p>
+          <pre className="text-xs bg-black/80 p-4 rounded w-full overflow-x-auto text-left opacity-90">
+            {this.state.errorStack}
+          </pre>
+          <p className="mt-6 text-sm text-center font-bold animate-pulse">
+            Сделайте скриншот этого экрана и отправьте его мне!
+          </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// --- 2. НАШ КОНТЕНТ (Универсальная версия с видео) ---
 interface HeroSectionProps {
   onCtaClick: () => void;
 }
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth < 768 : false,
-  );
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
-}
-
-export function HeroSection({ onCtaClick }: HeroSectionProps) {
+function HeroContent({ onCtaClick }: HeroSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (isMobile) return;
-    const video = videoRef.current;
-    if (video) {
-      video.muted = true;
-      video.play().catch(() => {});
+    if (videoRef.current) {
+      videoRef.current
+        .play()
+        .catch((e) => console.log("Автоплей заблокирован:", e));
     }
-  }, [isMobile]);
+  }, []);
 
   const scrollToSpecs = () => {
     document.getElementById("specs")?.scrollIntoView({ behavior: "smooth" });
@@ -37,38 +84,25 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <section
-      className="relative min-h-screen w-full overflow-hidden bg-slate-900"
+      className="relative min-h-[100dvh] w-full overflow-hidden bg-slate-900"
       data-testid="hero-section"
     >
-      {/* 1. ФОНОВЫЙ СЛОЙ (Картинка или Видео) - z-0 */}
       <div className="absolute inset-0 z-0">
-        {isMobile ? (
-          <img
-            src={heroPoster}
-            alt="Промышленный объект Калтан"
-            className="w-full h-full object-cover"
-            style={{ imageOrientation: "from-image" }}
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          >
-            <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/attached_assets/exterior-01.jpg"
+        >
+          <source src="/attached_assets/hero-video.mp4" type="video/mp4" />
+        </video>
       </div>
-
-      {/* 2. СЛОЙ ЗАТЕМНЕНИЯ - z-10 */}
       <div className="absolute inset-0 bg-black/50 z-10"></div>
-
-      {/* 3. СЛОЙ КОНТЕНТА (Всегда виден) - z-20 */}
-      <div className="relative z-20 flex items-center justify-center min-h-screen w-full">
+      <div className="relative z-20 flex items-center justify-center min-h-[100dvh] w-full">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center text-white w-full">
           <h1 className="text-3xl md:text-6xl font-bold mb-6 leading-tight">
             Автономный промышленный объект
@@ -79,7 +113,6 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
             Своя скважина и котельная. Запускайте производство, склад, гараж без
             промедлений.
           </p>
-
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
             <Button
               onClick={onCtaClick}
@@ -99,10 +132,15 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20">
-        <i className="fas fa-chevron-down text-2xl"></i>
-      </div>
     </section>
+  );
+}
+
+// --- 3. ЭКСПОРТ СЕКЦИИ, ЗАВЕРНУТОЙ В ЛОВУШКУ ---
+export function HeroSection(props: HeroSectionProps) {
+  return (
+    <HeroErrorBoundary>
+      <HeroContent {...props} />
+    </HeroErrorBoundary>
   );
 }
