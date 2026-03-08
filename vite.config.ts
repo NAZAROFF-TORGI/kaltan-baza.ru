@@ -25,9 +25,8 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    target: "es2018",
-    // УПРОЩАЕМ ПУТЬ: теперь Vercel точно найдет файлы
-    outDir: path.resolve(import.meta.dirname, "dist"),
+    target: "es2018", // СОХРАНЯЕМ ФИКС ДЛЯ МОБИЛОК
+    outDir: path.resolve(import.meta.dirname, "dist/public"), // ВОЗВРАЩАЕМ ПУТЬ ДЛЯ VERCEL
     emptyOutDir: true,
   },
   server: {
