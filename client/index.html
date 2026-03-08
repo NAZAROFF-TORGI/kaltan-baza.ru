@@ -1,52 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
-    <!doctype html>
-    <html lang="ru">
-      <head>
-        <meta charset="UTF-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <title>Промышленная база Калтан</title>
-
-        <script>
-          window.onerror = function (message, source, lineno, colno, error) {
-            document.body.innerHTML =
-              '<div style="background-color: #ff0000; color: #ffffff; padding: 20px; font-family: monospace; height: 100vh; width: 100vw; box-sizing: border-box; position: absolute; top: 0; left: 0; z-index: 999999;">' +
-              '<h2 style="margin-top:0;">ФАТАЛЬНЫЙ СБОЙ БРАУЗЕРА</h2>' +
-              "<p><b>Ошибка:</b> " +
-              message +
-              "</p>" +
-              "<p><b>Файл:</b> " +
-              source +
-              "</p>" +
-              "<p><b>Строка:</b> " +
-              lineno +
-              " <b>Колонка:</b> " +
-              colno +
-              "</p>" +
-              "</div>";
-            return true;
-          };
-        </script>
-      </head>
-      <body>
-        <div id="root"></div>
-        <script type="module" src="/src/main.tsx"></script>
-      </body>
-    </html>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Продажа промышленного цеха 1300 м² в Калтане | Кузбасс</title>
     <meta
       name="description"
       content="Прямая продажа от собственника: производственное здание, склад, гараж 1300 м² на участке 26 соток. Высота 9м, кран-балки 3-5т, автономная котельная и скважина. Кемеровская обл., г. Калтан"
     />
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
     <link rel="canonical" href="https://kaltan-baza.ru/" />
@@ -66,7 +31,6 @@
       content="https://kaltan-baza.ru/attached_assets/exterior-01.jpg"
     />
     <meta property="og:locale" content="ru_RU" />
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
@@ -81,6 +45,7 @@
       content="https://kaltan-baza.ru/attached_assets/exterior-01.jpg"
     />
     <meta name="yandex-verification" content="5aab8481a12db0e3" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -98,11 +63,13 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     /></noscript>
+
     <script
       defer
       src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"
       type="text/javascript"
     ></script>
+
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {
         m[i] =
@@ -140,19 +107,43 @@
         trackLinks: true,
       });
     </script>
+
+    <script>
+      window.onerror = function (message, source, lineno, colno, error) {
+        window.onload = function () {
+          var errDiv = document.createElement("div");
+          errDiv.style.cssText =
+            "background-color:#cc0000;color:#ffffff;padding:20px;font-family:monospace;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;box-sizing:border-box;overflow:auto;";
+          errDiv.innerText =
+            "ФАТАЛЬНЫЙ СБОЙ БРАУЗЕРА\n\n" +
+            "Ошибка: " +
+            message +
+            "\n\n" +
+            "Файл: " +
+            source +
+            "\n\n" +
+            "Строка: " +
+            lineno;
+          document.body.appendChild(errDiv);
+        };
+        return false;
+      };
+    </script>
   </head>
   <body>
-    <noscript
-      ><div>
+    <noscript>
+      <div>
         <img
           src="https://mc.yandex.ru/watch/106978141"
           style="position: absolute; left: -9999px"
           alt=""
-        /></div
-    ></noscript>
+        />
+      </div>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+
     <script
       type="text/javascript"
       src="https://replit.com/public/js/replit-dev-banner.js"
