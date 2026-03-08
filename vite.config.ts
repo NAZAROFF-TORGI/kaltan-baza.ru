@@ -24,14 +24,12 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
-
-  // Вносим правку именно в существующий блок build
   build: {
-    target: "es2018", // <-- ТОТ САМЫЙ ФИКС ДЛЯ СТАРЫХ МОБИЛЬНЫХ БРАУЗЕРОВ
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    target: "es2018",
+    // УПРОЩАЕМ ПУТЬ: теперь Vercel точно найдет файлы
+    outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
   },
-
   server: {
     fs: {
       strict: true,
